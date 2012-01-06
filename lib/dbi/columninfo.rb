@@ -37,6 +37,7 @@ module DBI
         def initialize(hash=nil)
             @hash = hash.dup rescue nil
             @hash ||= Hash.new
+            h = {}
 
             # coerce all strings to symbols
             @hash.each_key do |x|
@@ -46,11 +47,12 @@ module DBI
                         raise ::TypeError, 
                             "#{self.class.name} may construct from a hash keyed with strings or symbols, but not both" 
                     end
-                    @hash[sym] = @hash[x]
+                    h[sym] = @hash[x]
                     @hash.delete(x)
                 end
             end
 
+            @hash = h
             super(@hash)
         end
 
